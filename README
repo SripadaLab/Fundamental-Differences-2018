@@ -1,0 +1,12 @@
+This directory contains code necessary to perform nonparametric inference
+on community structure from brain network components.
+
+*Contents*
+
+Run_Test.m                  -   Master Script that performs analysis
+FundamentalUnits_SBM_Test.m -   Master function that loops over components
+SBM_CommunityTest.m         -   Perform inference for a single component
+SBM_NormLogLik.m            -   Calculate profile log likelihood
+
+
+FundamentalUnits_SBM_Test.m contains the primary function.
