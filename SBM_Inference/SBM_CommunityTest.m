@@ -1,4 +1,4 @@
-function [pval, log_lik_true, log_lik_null] = SBM_CommunityTest(A,C,nperms)
+function [pval, log_lik_true, log_lik_null_median, log_lik_null] = SBM_CommunityTest(A,C,nperms)
 % Conduct permutation testing to assess whether the community assignments in C are ``meaningful''. 
 %
 % Inputs
@@ -20,4 +20,6 @@ function [pval, log_lik_true, log_lik_null] = SBM_CommunityTest(A,C,nperms)
 
     pval = sum(log_lik_true <= log_lik_null) / nperms;
     pval = max(pval,1/nperms); % avoid p=0
+
+    log_lik_null_median = median(log_lik_null);
 end
