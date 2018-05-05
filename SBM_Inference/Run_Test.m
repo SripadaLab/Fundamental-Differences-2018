@@ -1,3 +1,5 @@
+rng(2018)
+
 %% Real Run
 path = '~/Documents/hcp_data/HCP_components.mat';
 nperms = 10000;
