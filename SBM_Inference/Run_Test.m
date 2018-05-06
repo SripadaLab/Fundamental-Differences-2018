@@ -2,7 +2,7 @@ rng(2018)
 
 %% Real Run
 path = '~/Documents/hcp_data/HCP_components.mat';
-nperms = 10000;
+nperms = 20000;
 topComps = 809;
 dropNets = [-1];
 sanity=0;
@@ -11,7 +11,7 @@ sanity=0;
 
 %% Pre-shuffle the labels and run again as a sanity check
 path = '~/Documents/hcp_data/HCP_components.mat';
-nperms = 10000;
+nperms = 20000;
 topComps = 809;
 dropNets = [-1];
 sanity=1;
