@@ -1,6 +1,5 @@
 library(ggplot2)
 library(R.matlab)
-library(tidyr)
 
 results = R.matlab::readMat('SBM_Inference.mat')
 
