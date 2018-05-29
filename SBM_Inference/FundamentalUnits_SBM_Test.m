@@ -1,4 +1,4 @@
-function [ps, real_ll, null_ll_median] = FundamentalUnits_SBM_Test(path,nperms,topComps,dropNets,sanity)
+function [ps, real_ll, null_ll_median] = FundamentalUnits_SBM_Test(path,nperms,topComps,dropNets,sanity,seed)
 % this script implements the SBM Inference Routine as described in the manuscript
 
     if(~exist('sanity'))
@@ -24,9 +24,10 @@ function [ps, real_ll, null_ll_median] = FundamentalUnits_SBM_Test(path,nperms,t
     real_ll = zeros(topComps,1);
     null_ll_median = zeros(topComps,1);
 
-    for i=1:topComps
+    parfor i=1:topComps
         tic;
         fprintf(1,'Currently working on Component %d of %d requested\n',i,topComps);
+        rng(seed+i);
         A = comps.components(:,:,i);
         if (istriu(A)) % symmetrize if upper triangular
             A = A + A';
