@@ -4,13 +4,22 @@ NumComp = [50 100 150];
 nFold = 1;
 
 %to run 10-fold CV in training data 
-%NumComp = [5:5:500];
-%nFold = 10;
+NumComp = [5:5:500];
+nFold = 10;
 
 NumComps = size(NumComp,2);
 
 n_train = sum(Train);
 n_test = sum(Test);
+featuremat = featuremat_all;
+pheno = pheno_all;
+
+%if we're doing the 10fold in training, limit the dataset to just train
+%subjects
+if (nFold > 1)
+    featuremat = featuremat(Train==1,:);
+    pheno = pheno(Train==1,:);
+end
 
 replace = 1;
 if (nFold==n)
@@ -78,3 +87,33 @@ for i = 1:NumComps
 end
 
 mean_corr = mc_FisherZ(mean(mc_FisherZ(fold_corr),3),1);
+std_corr = mc_FisherZ(std(mc_FisherZ(fold_corr),[],3),1);
+
+if (nFold>1)
+    cv_NumComp = NumComp;
+    cv_mean = mean_corr;
+    cv_std = std_corr;
+    cv_nFold = nFold;
+    names = {'genexec','procspeed','pmat','ext','int','attn','O','C','E','A','N'};
+    save(fullfile(OutputPath,'cv.mat'),'cv_NumComp','cv_mean','cv_std','cv_nFold','names');
+end
+
+
+if (nFold==1)
+    fout_mu = zeros(809,1);
+    fout_std = zeros(809,1);
+
+    for iComp = 1:809
+        fprintf(1,'%d\n',iComp);
+        n1t = Abig_test(:,1:iComp) * icasig(1:iComp,:);
+        r = fast_corr(xt',n1t');
+        fout_mu(iComp) = mc_FisherZ(mean(mc_FisherZ(r)),1);
+        fout_std(iComp) = mc_FisherZ(std(mc_FisherZ(r)),1);
+    end
+
+    recon_dim = 1:809;
+    recon_fout_mean = fout_mu;
+    recon_fout_std = fout_std;
+    save(fullfile(OutputPath,'recon.mat'),'recon_dim','recon_fout_mean','recon_fout_std');
+end
+

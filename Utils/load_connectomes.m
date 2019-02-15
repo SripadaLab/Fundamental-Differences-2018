@@ -1,8 +1,5 @@
-function featuremat = load_connectomes(CorrTemplate, subs, Nodes)
+function featuremat = load_connectomes(CorrTemplate, subs)
     n = size(subs,1);
-    p = (Nodes*(Nodes-1))/2;
-    
-    featuremat = zeros(n,p);
 
     %load and z-transform connectivity matrices
     for iSubject = 1:n
@@ -12,5 +9,9 @@ function featuremat = load_connectomes(CorrTemplate, subs, Nodes)
         r = r.rMatrix;
         z = mc_FisherZ(r);
         z = mc_flatten_upper_triangle(z);
+        if (iSubject==1)
+            featuremat = zeros(n,numel(z));
+        end
+        z(isnan(z)) = 0;
         featuremat(iSubject,:) = z;
     end

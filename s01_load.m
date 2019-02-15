@@ -33,13 +33,16 @@ pheno = [dat.GenExec dat.ProcSpeed dat.PMAT24_A_CR dat.ASR_Extn_T ...
          dat.ASR_Intn_T dat.ASR_Attn_Pct dat.NEOFAC_O dat.NEOFAC_C dat.NEOFAC_E ...
          dat.NEOFAC_A dat.NEOFAC_N];
 
+pheno_all = pheno;
+
 Train = dat.Include_Train;
 Test = dat.Include_Test;
 
 n = size(subs,1);
 p = (Nodes*(Nodes-1))/2;
 
-featuremat = load_connectomes(CorrTemplate,subs,Nodes);
+featuremat = load_connectomes(CorrTemplate,subs);
+featuremat_all = featuremat;
 
 if (ControlAll)
     nuisance = [Age Age.^2 meanFD meanFD.^2 gender TBV TBV.^2 Recon==2 Recon==3];
@@ -58,5 +61,5 @@ RetestCorrTemplate = [DataDir 'Connectomes/[Subject]_rt/power_264/corr.mat'];
 dat_rt = readtable(RetestPhenotypeFile);
 subs_rt = num2str(dat_rt.Subject);
 
-featuremat_rt1 = load_connectomes(CorrTemplate,subs_rt,Nodes);
-featuremat_rt2 = load_connectomes(RetestCorrTemplate,subs_rt,Nodes);
+featuremat_rt1 = load_connectomes(CorrTemplate,subs_rt);
+featuremat_rt2 = load_connectomes(RetestCorrTemplate,subs_rt);
